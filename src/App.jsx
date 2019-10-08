@@ -3,10 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 import Counter from './counter';
 import { Provider } from 'react-redux'
-import { createStore } from 'redux';
-import{counter} from './reducers';
+import { createStore,applyMiddleware } from 'redux';
+import {counter} from './reducers';
+import rootSaga from './sagas';
+import createSagaMiddleware from 'redux-saga';
 
-const store = createStore(counter);
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+  counter,
+  applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
 function App() {
   return (
     <Provider store={store}>
